@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "40254533040",
+    "project_id": "chicken-73a80",
+    "storage_bucket": "chicken-73a80.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:40254533040:android:8e1e6960be4b256e15ba75",
+        "android_client_info": {
+          "package_name": "chicken.com"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "40254533040-b0pfgbeshm4ve25e24700a4tgvja1825.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVq689tiZtyPYxYGnCQ87T5AV0lCotxSM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "40254533040-b0pfgbeshm4ve25e24700a4tgvja1825.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
