@@ -1,4 +1,4 @@
-# chicken
+# Flutter firebase admin & guest user- 
 
 A new Flutter project.
 
