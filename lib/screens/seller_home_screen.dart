@@ -1,7 +1,7 @@
 import 'package:chicken/widgets/user_post_widget.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
-import '../widgets/new_post.dart';
+import 'new_post.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -126,6 +126,7 @@ class _sellerScreenState extends State<sellerScreen> {
                       snapShot.data.docs[index].data()['price'],
                       snapShot.data.docs[index].id,
                       snapShot.data.docs[index].data()['address'],
+                      snapShot.data.docs[index],
                     ),
                   );
                 });

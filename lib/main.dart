@@ -1,4 +1,5 @@
-import 'package:chicken/widgets/new_post.dart';
+import 'package:chicken/screens/edit_post.dart';
+import 'package:chicken/screens/new_post.dart';
 import 'package:chicken/widgets/user_post_widget.dart';
 import 'package:chicken/widgets/user_posts.dart';
 
@@ -16,6 +17,7 @@ void main() async {
 class MyApp extends StatelessWidget {
 String docsRef;
 String documentId;
+var docList;
   static const MaterialColor kPrimaryColor = const MaterialColor(
     0xFF4e51bf,
     const <int, Color>{
@@ -54,6 +56,7 @@ String documentId;
         return AuthScreen();
       },),
       routes: {
+        EditPost.routeName:(context)=>EditPost(documentId,docList),
         NewPost.routeName:(context)=>NewPost(),
         sellerScreen.routeName:(context)=>sellerScreen(documentId),
       },

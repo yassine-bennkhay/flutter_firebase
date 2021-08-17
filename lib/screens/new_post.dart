@@ -69,7 +69,7 @@ class _NewPostState extends State<NewPost> {
       'userId': user.uid,
       'username': userData['username'],
       'imageLink': url,
-      // 'userImage': userData['image_url'],
+      'userImage': userData['image_url'],
     });
     setState(() {
       _isLoading = false;
