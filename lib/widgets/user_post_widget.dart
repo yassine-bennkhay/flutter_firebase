@@ -20,10 +20,10 @@ class UserPostWidget extends StatefulWidget {
 }
 
 class _UserPostWidgetState extends State<UserPostWidget> {
+  final FirebaseFirestore db = FirebaseFirestore.instance;
   @override
   Widget build(BuildContext context) {
-    CollectionReference users =
-        FirebaseFirestore.instance.collection('usersData');
+
 
     return Card(
       elevation: 8,

@@ -39,7 +39,6 @@ var docList;
       debugShowCheckedModeBanner: false,
       title: 'FlutterChat',
       theme: ThemeData(
-
         primarySwatch: kPrimaryColor,
         backgroundColor: Colors.pink,
         accentColor: Colors.deepPurple,

@@ -36,6 +36,8 @@ dependencies:
   firebase_storage: ^10.0.1
   flutter_neumorphic: ^3.1.0
   url_launcher: ^6.0.9
+  font_awesome_flutter: ^9.1.0
+  location:
 
 
 dev_dependencies:
@@ -69,11 +71,18 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
+  fonts:
+    - family: RobotoLight
+      fonts:
+         - asset: fonts/Roboto-Light.ttf
+    - family: RobotoMedium
+      fonts:
+         - asset: fonts/Roboto-Medium.ttf
+    - family: RobotoRegular
+      fonts:
+            - asset: fonts/Roboto-Regular.ttf
+
+
   #         style: italic
   #   - family: Trajan Pro
   #     fonts:

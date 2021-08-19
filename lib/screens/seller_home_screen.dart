@@ -1,3 +1,4 @@
+import 'package:chicken/user_location.dart';
 import 'package:chicken/widgets/user_post_widget.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
@@ -9,13 +10,14 @@ import 'package:flutter/material.dart';
 class sellerScreen extends StatefulWidget {
   static const routeName = 'seller-home-page';
   sellerScreen(this.documentId);
-  final String documentId;
-
+   String documentId;
+String docItem;
   @override
   _sellerScreenState createState() => _sellerScreenState();
 }
 
 class _sellerScreenState extends State<sellerScreen> {
+
   Function imagePick;
   CollectionReference users =
       FirebaseFirestore.instance.collection('usersData');
@@ -79,7 +81,9 @@ class _sellerScreenState extends State<sellerScreen> {
                         height: 0,
                       ),
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+
+                        },
                         child: ListTile(
                           contentPadding: EdgeInsets.only(
                               left: 8, right: 0.0, bottom: 0, top: 0),
@@ -139,6 +143,7 @@ class _sellerScreenState extends State<sellerScreen> {
               onChanged: (itemIdentifier) {
                 if (itemIdentifier == 'logout') {
                   FirebaseAuth.instance.signOut();
+
                 }
               },
             ),

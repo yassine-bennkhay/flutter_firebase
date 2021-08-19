@@ -1,5 +1,7 @@
+import 'package:chicken/user_location.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class guestHomeScreen extends StatefulWidget {
@@ -11,6 +13,9 @@ class guestHomeScreen extends StatefulWidget {
 }
 
 class _guestHomeScreenState extends State<guestHomeScreen> {
+  UserLocation _userLocation=UserLocation();
+  double _longitude;
+  double _latitude;
   Future<void> _callUser(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
@@ -25,15 +30,11 @@ class _guestHomeScreenState extends State<guestHomeScreen> {
         .collection('usersData')
         .orderBy('createdAt', descending: true)
         .snapshots();
-
-    final userDataId =
-        FirebaseFirestore.instance.collection('usersData').doc('userId').get();
-    final specificUserId =
-        FirebaseFirestore.instance.collection('users').doc('userId').get();
-
     return Scaffold(
       appBar: AppBar(
-        title: Text('chicken'),
+        title: Text('chicken',style:TextStyle(
+          fontFamily: 'RobotoMedium',
+        ),),
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance.collection('usersData').snapshots(),
@@ -103,7 +104,7 @@ class _guestHomeScreenState extends State<guestHomeScreen> {
                                   Row(
                                     children: [
                                       Icon(
-                                        Icons.map,
+                                        FontAwesomeIcons.mapMarkerAlt,
                                         size: 25,
                                         color: Theme.of(context).primaryColor,
                                       ),
@@ -111,7 +112,7 @@ class _guestHomeScreenState extends State<guestHomeScreen> {
                                         width: 8,
                                       ),
                                       Text(
-                                        docsData.length.toString(),
+                                        usersData['address'],
                                         style: TextStyle(fontSize: 16),
                                         maxLines: 2,
                                         overflow: TextOverflow.ellipsis,
@@ -120,7 +121,10 @@ class _guestHomeScreenState extends State<guestHomeScreen> {
                                   ),
                                 ],
                               ),
-                              Text('20\$')
+                              Text("${usersData['price']} DH",style:TextStyle(
+                                fontFamily: 'RobotoMedium',
+                                fontSize: 20
+                              ),)
                             ],
                           ),
                         ),
@@ -140,7 +144,9 @@ class _guestHomeScreenState extends State<guestHomeScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   ElevatedButton(
-                                      onPressed: () {}, child: Icon(Icons.map)),
+                                      onPressed: () {
+                                        _userLocation.goToMaps(usersData['latitude'], usersData['longitude']);
+                                      }, child: Icon(FontAwesomeIcons.mapMarkerAlt)),
                                   ElevatedButton(
                                     child: Icon(Icons.phone),
                                     onPressed: ()=>setState((){

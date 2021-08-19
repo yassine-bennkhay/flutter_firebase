@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:chicken/screens/seller_home_screen.dart';
+import 'package:chicken/user_location.dart';
 import 'package:chicken/widgets/user_image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,6 +9,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:location/location.dart';
 
 class NewPost extends StatefulWidget {
   static const routeName = 'New-Post';
@@ -17,6 +19,7 @@ class NewPost extends StatefulWidget {
 }
 
 class _NewPostState extends State<NewPost> {
+  UserLocation _userLocation=UserLocation() ;
   String doc;
   XFile _userImageFile;
   void _pickedImage(XFile image) {
@@ -48,13 +51,27 @@ class _NewPostState extends State<NewPost> {
     await ref.putFile(
       File(_userImageFile.path),
     );
-    /* final url = await ref.getDownloadURL();
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(user.uid)
-        .set({
-      'image_url': url,
-    });*/
+    Location location = new Location();
+    bool _serviceEnabled;
+    PermissionStatus _permissionGranted;
+    LocationData _locationData;
+
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        return;
+      }
+    }
+
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return;
+      }
+    }
+    _locationData = await location.getLocation();
     final userData = await FirebaseFirestore.instance
         .collection('users')
         .doc(user.uid)
@@ -70,6 +87,8 @@ class _NewPostState extends State<NewPost> {
       'userNumber':userData['number'],
       'username': userData['username'],
       'imageLink': url,
+      'latitude': _locationData.latitude,
+      'longitude': _locationData.longitude,
     });
     setState(() {
       _isLoading = false;
@@ -203,6 +222,7 @@ class _NewPostState extends State<NewPost> {
             ),
             onPressed: () async {
               await _postInfo();
+
 
             },
             child: Icon(
