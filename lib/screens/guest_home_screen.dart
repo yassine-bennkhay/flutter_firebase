@@ -1,23 +1,35 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class guestHomeScreen extends StatelessWidget {
+class guestHomeScreen extends StatefulWidget {
   guestHomeScreen(this.userImage);
   final String userImage;
+
+  @override
+  _guestHomeScreenState createState() => _guestHomeScreenState();
+}
+
+class _guestHomeScreenState extends State<guestHomeScreen> {
+  Future<void> _callUser(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'could not launch $url';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final docsData =FirebaseFirestore.instance
+    final docsData = FirebaseFirestore.instance
         .collection('usersData')
         .orderBy('createdAt', descending: true)
         .snapshots();
 
-
-
-    final userDataId=FirebaseFirestore.instance.collection('usersData').doc('userId').get();
-    final specificUserId= FirebaseFirestore.instance.collection('users').doc('userId').get();
-
-
-
+    final userDataId =
+        FirebaseFirestore.instance.collection('usersData').doc('userId').get();
+    final specificUserId =
+        FirebaseFirestore.instance.collection('users').doc('userId').get();
 
     return Scaffold(
       appBar: AppBar(
@@ -131,7 +143,10 @@ class guestHomeScreen extends StatelessWidget {
                                       onPressed: () {}, child: Icon(Icons.map)),
                                   ElevatedButton(
                                     child: Icon(Icons.phone),
-                                    onPressed: () {},
+                                    onPressed: ()=>setState((){
+                                      _callUser('tel:${usersData['userNumber']}');
+                                      print(usersData['userNumber']);
+                                    })
                                   ),
                                 ],
                               ),

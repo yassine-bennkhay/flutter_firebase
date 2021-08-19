@@ -67,9 +67,9 @@ class _NewPostState extends State<NewPost> {
       'address': _enteredAddress,
       'createdAt': Timestamp.now(),
       'userId': user.uid,
+      'userNumber':userData['number'],
       'username': userData['username'],
       'imageLink': url,
-      'userImage': userData['image_url'],
     });
     setState(() {
       _isLoading = false;
@@ -190,27 +190,27 @@ class _NewPostState extends State<NewPost> {
           ),
           _isLoading
               ? Center(
-                  child: CircularProgressIndicator(),
-                )
+            child: CircularProgressIndicator(),
+          )
               : NeumorphicButton(
-                  style: NeumorphicStyle(
-                    shape: NeumorphicShape.flat,
-                    boxShape: NeumorphicBoxShape.roundRect(
-                      BorderRadius.circular(16),
-                    ),
-                    depth: 8,
-                    lightSource: LightSource.topLeft,
-                  ),
-                  onPressed: () async {
-                    await _postInfo();
+            style: NeumorphicStyle(
+              shape: NeumorphicShape.flat,
+              boxShape: NeumorphicBoxShape.roundRect(
+                BorderRadius.circular(16),
+              ),
+              depth: 8,
+              lightSource: LightSource.topLeft,
+            ),
+            onPressed: () async {
+              await _postInfo();
 
-                  },
-                  child: Icon(
-                    Icons.save,
-                    color: Theme.of(context).primaryColor,
-                    size: 30,
-                  ),
-                )
+            },
+            child: Icon(
+              Icons.save,
+              color: Theme.of(context).primaryColor,
+              size: 30,
+            ),
+          )
         ],
       ),
     );

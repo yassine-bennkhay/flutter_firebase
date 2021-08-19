@@ -19,9 +19,96 @@ class _sellerScreenState extends State<sellerScreen> {
   Function imagePick;
   CollectionReference users =
       FirebaseFirestore.instance.collection('usersData');
+  final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance
+      .collection('users')
+      .where('userId', isEqualTo: FirebaseAuth.instance.currentUser.uid)
+      .snapshots();
+//
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        drawer: Drawer(
+          child: StreamBuilder<QuerySnapshot>(
+            stream: _usersStream,
+            builder:
+                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.hasError) {
+                return Center(child: Text('Something went wrong!'));
+              }
+
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              }
+
+              return ListView(
+                children: snapshot.data.docs.map((DocumentSnapshot document) {
+                  Map<String, dynamic> data =
+                      document.data() as Map<String, dynamic>;
+                  return Column(
+                    children: [
+                      UserAccountsDrawerHeader(
+                        accountName: Text(data['username']),
+                        accountEmail: Text(data['email']),
+                        currentAccountPicture: CircleAvatar(
+                          backgroundImage:
+                              AssetImage('images/default_user_img.jpg'),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {},
+                        child: ListTile(
+                          contentPadding: EdgeInsets.only(
+                              left: 8, right: 0.0, bottom: 0, top: 0),
+                          minLeadingWidth: 0.5,
+                          visualDensity: VisualDensity(
+                            horizontal: -4,
+                          ),
+                          title: new Text(
+                            "Home",
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                          leading: Icon(
+                            Icons.home,
+                            size: 25,
+                          ),
+                        ),
+                      ),
+                      Divider(
+                        height: 0,
+                      ),
+                      InkWell(
+                        onTap: () {},
+                        child: ListTile(
+                          contentPadding: EdgeInsets.only(
+                              left: 8, right: 0.0, bottom: 0, top: 0),
+                          minLeadingWidth: 0.5,
+                          visualDensity: VisualDensity(
+                            horizontal: -4,
+                          ),
+                          title: new Text(
+                            "My Address",
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                          leading: Icon(
+                            Icons.map,
+                            size: 25,
+                          ),
+                        ),
+                      ),
+                      Divider(
+                        height: 0,
+                      ),
+                    ],
+                  );
+                }).toList(),
+              );
+            },
+          ),
+        ),
         appBar: AppBar(
           title: Text(
             'Chicken',
@@ -65,7 +152,7 @@ class _sellerScreenState extends State<sellerScreen> {
             if (snapShot.connectionState == ConnectionState.waiting) {
               return Center(
                 child: CircularProgressIndicator(
-                  color: Colors.red,
+                  color: Theme.of(context).primaryColor,
                 ),
               );
             }
@@ -74,7 +161,7 @@ class _sellerScreenState extends State<sellerScreen> {
                 child: Text('no posts yet, try to add one!'),
               );
             }
-            var items = snapShot.data.docs;
+
             return ListView.builder(
                 itemCount: snapShot.data.docs.length,
                 itemBuilder: (context, index) {
@@ -85,14 +172,16 @@ class _sellerScreenState extends State<sellerScreen> {
                         builder: (BuildContext context) {
                           return AlertDialog(
                             title: const Text("Confirm"),
-                            content: const Text("Are you sure you wish to delete this item?"),
+                            content: const Text(
+                                "Are you sure you wish to delete this item?"),
                             actions: <Widget>[
                               FlatButton(
-                                  onPressed: () => Navigator.of(context).pop(true),
-                                  child: const Text("DELETE")
-                              ),
+                                  onPressed: () =>
+                                      Navigator.of(context).pop(true),
+                                  child: const Text("DELETE")),
                               FlatButton(
-                                onPressed: () => Navigator.of(context).pop(false),
+                                onPressed: () =>
+                                    Navigator.of(context).pop(false),
                                 child: const Text("CANCEL"),
                               ),
                             ],
@@ -100,9 +189,10 @@ class _sellerScreenState extends State<sellerScreen> {
                         },
                       );
                     },
-                    background: Card(child: Container(color: Colors.red,
-
-                    height: 200,
+                    background: Card(
+                        child: Container(
+                      color: Colors.red,
+                      height: 200,
                     )),
                     direction: DismissDirection.endToStart,
                     key: UniqueKey(),
