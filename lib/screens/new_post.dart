@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart';
+import 'package:geocoder/geocoder.dart';
 
 class NewPost extends StatefulWidget {
   static const routeName = 'New-Post';
@@ -19,7 +20,7 @@ class NewPost extends StatefulWidget {
 }
 
 class _NewPostState extends State<NewPost> {
-  UserLocation _userLocation=UserLocation() ;
+
   String doc;
   XFile _userImageFile;
   void _pickedImage(XFile image) {
@@ -37,6 +38,15 @@ class _NewPostState extends State<NewPost> {
   var _enteredTitle = '';
   var _enteredPrice = '';
   var _enteredAddress = '';
+
+
+
+  /*getAddressFromCoordinates(Coordinates coordinates)async {
+    var addresses=await Geocoder.local.findAddressesFromCoordinates(coordinates);
+    var address=addresses.first;
+    print('----------------------------------------');
+    print("${address.addressLine}");
+  }*/
 
   Future _postInfo() async {
     setState(() {
@@ -76,12 +86,12 @@ class _NewPostState extends State<NewPost> {
         .collection('users')
         .doc(user.uid)
         .get();
-
+    //getAddressFromCoordinates(Coordinates(_locationData.latitude,_locationData.longitude,));
     final url = await ref.getDownloadURL();
     await FirebaseFirestore.instance.collection('usersData').add({
       'title': _enteredTitle,
       'price': _enteredPrice,
-      'address': _enteredAddress,
+     // 'address': _enteredAddress,
       'createdAt': Timestamp.now(),
       'userId': user.uid,
       'userNumber':userData['number'],
@@ -107,7 +117,10 @@ class _NewPostState extends State<NewPost> {
     _descriptionController.clear();
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => sellerScreen(doc)));
+
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -182,7 +195,7 @@ class _NewPostState extends State<NewPost> {
           SizedBox(
             height: 20,
           ),
-          Neumorphic(
+          /*Neumorphic(
             style: NeumorphicStyle(
               shape: NeumorphicShape.concave,
               boxShape: NeumorphicBoxShape.roundRect(
@@ -203,10 +216,7 @@ class _NewPostState extends State<NewPost> {
                 contentPadding: EdgeInsets.only(left: 10, top: 10, bottom: 10),
               ),
             ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
+          ),*/
           _isLoading
               ? Center(
             child: CircularProgressIndicator(),

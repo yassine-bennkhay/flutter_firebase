@@ -1,6 +1,8 @@
+import 'package:chicken/screens/auth_screen.dart';
 import 'package:chicken/user_location.dart';
 import 'package:chicken/widgets/user_post_widget.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'new_post.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,6 +11,7 @@ import 'package:flutter/material.dart';
 
 class sellerScreen extends StatefulWidget {
   static const routeName = 'seller-home-page';
+
   sellerScreen(this.documentId);
    String documentId;
 String docItem;
@@ -17,6 +20,7 @@ String docItem;
 }
 
 class _sellerScreenState extends State<sellerScreen> {
+  UserLocation _userLocation=UserLocation();
 
   Function imagePick;
   CollectionReference users =
@@ -57,7 +61,9 @@ class _sellerScreenState extends State<sellerScreen> {
                         ),
                       ),
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+Navigator.push(context, MaterialPageRoute(builder: (context)=>sellerScreen(widget.documentId)));
+                        },
                         child: ListTile(
                           contentPadding: EdgeInsets.only(
                               left: 8, right: 0.0, bottom: 0, top: 0),
@@ -81,8 +87,8 @@ class _sellerScreenState extends State<sellerScreen> {
                         height: 0,
                       ),
                       InkWell(
-                        onTap: () {
-
+                        onTap: ()async {
+                          await _userLocation.goToMaps(data['latitude'], data['longitude']);
                         },
                         child: ListTile(
                           contentPadding: EdgeInsets.only(
@@ -97,10 +103,37 @@ class _sellerScreenState extends State<sellerScreen> {
                               fontSize: 20,
                             ),
                           ),
-                          leading: Icon(
-                            Icons.map,
-                            size: 25,
+                          leading:
+                            Icon(FontAwesomeIcons.mapMarkerAlt,size: 25,),
+
+
+                        ),
+                      ),
+                      Divider(
+                        height: 0,
+                      ),
+                      InkWell(
+                        onTap: ()async{
+                          await FirebaseAuth.instance.signOut();
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>AuthScreen()));
+                        },
+                        child: ListTile(
+                          contentPadding: EdgeInsets.only(
+                              left: 8, right: 0.0, bottom: 0, top: 0),
+                          minLeadingWidth: 0.5,
+                          visualDensity: VisualDensity(
+                            horizontal: -4,
                           ),
+                          title: new Text(
+                            "LogOut",
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                          leading:
+                          Icon(FontAwesomeIcons.signOutAlt,size: 25,),
+
+
                         ),
                       ),
                       Divider(

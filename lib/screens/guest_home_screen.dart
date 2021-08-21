@@ -112,7 +112,7 @@ class _guestHomeScreenState extends State<guestHomeScreen> {
                                         width: 8,
                                       ),
                                       Text(
-                                        usersData['address'],
+                                       'address',
                                         style: TextStyle(fontSize: 16),
                                         maxLines: 2,
                                         overflow: TextOverflow.ellipsis,

@@ -20,7 +20,6 @@ class UserPostWidget extends StatefulWidget {
 }
 
 class _UserPostWidgetState extends State<UserPostWidget> {
-  final FirebaseFirestore db = FirebaseFirestore.instance;
   @override
   Widget build(BuildContext context) {
 
@@ -32,11 +31,11 @@ class _UserPostWidgetState extends State<UserPostWidget> {
             backgroundImage: NetworkImage(widget.imageLink),
           ),
           title: Text(
-            widget.title,
+          widget.title,
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
           ),
           subtitle: Text(
-            widget.address,
+           widget.price+ 'DH',
             style: TextStyle(fontSize: 15),
           ),
           trailing: IconButton(
