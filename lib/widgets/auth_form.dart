@@ -25,6 +25,11 @@ class AuthForm extends StatefulWidget {
 
 class _AuthFormState extends State<AuthForm> {
   final _formKey = GlobalKey<FormState>();
+TextStyle myTextStyle= TextStyle(
+  fontSize: 20,
+  color: Colors.white,
+  fontFamily: 'RobotoRegular',
+  );
   var _userEmail = '';
   var _userPassword = '';
   var _userName = '';
@@ -71,6 +76,8 @@ class _AuthFormState extends State<AuthForm> {
   Widget build(BuildContext context) {
     return Center(
       child: Card(
+        elevation: 0,
+        color: Colors.transparent,
         margin: EdgeInsets.all(20),
         child: SingleChildScrollView(
           child: Padding(
@@ -82,6 +89,11 @@ class _AuthFormState extends State<AuthForm> {
                 children: [
                  // if (!_isLogin) UserImagePicker(_pickedImage),
                   TextFormField(
+                    style: TextStyle(
+              fontSize: 20,
+                color: Colors.white,
+                fontFamily: 'RobotoRegular',
+              ),
                     key: ValueKey('email'),
                     validator: (value) {
                       if (value.isEmpty || !value.contains('@')) {
@@ -92,6 +104,12 @@ class _AuthFormState extends State<AuthForm> {
                     keyboardType: TextInputType.emailAddress,
                     decoration: const InputDecoration(
                       labelText: 'Email Address',
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
                     ),
                     onSaved: (value) {
                       _userEmail = value;
@@ -99,6 +117,7 @@ class _AuthFormState extends State<AuthForm> {
                   ),
                   if (!_isLogin)
                     TextFormField(
+                      style:myTextStyle,
                       key: ValueKey('username'),
                       validator: (value) {
                         if (value.isEmpty || value.length < 4) {
@@ -108,6 +127,12 @@ class _AuthFormState extends State<AuthForm> {
                       },
                       keyboardType: TextInputType.text,
                       decoration: const InputDecoration(
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white),
+                        ),
                         labelText: 'Username',
                       ),
                       onSaved: (value) {
@@ -116,6 +141,7 @@ class _AuthFormState extends State<AuthForm> {
                     ),
                   if (!_isLogin)
                     TextFormField(
+                      style: myTextStyle,
                       key: ValueKey('number'),
                       validator: (value) {
                         if (value.isEmpty || value.length < 10) {
@@ -125,6 +151,12 @@ class _AuthFormState extends State<AuthForm> {
                       },
                       keyboardType: TextInputType.number,
                       decoration: const InputDecoration(
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white),
+                        ),
                         labelText: 'Phone number',
                       ),
                       onSaved: (value) {
@@ -132,6 +164,8 @@ class _AuthFormState extends State<AuthForm> {
                       },
                     ),
                   TextFormField(
+
+                    style: myTextStyle,
                     key: ValueKey('password'),
                     validator: (value) {
                       if (value.isEmpty || value.length < 7) {
@@ -141,6 +175,13 @@ class _AuthFormState extends State<AuthForm> {
                     },
                     obscureText: true,
                     decoration: const InputDecoration(
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
+                      hintStyle: TextStyle(fontSize: 20.0, color: Colors.white),
                       labelText: 'Password',
                     ),
                     onSaved: (value) {
@@ -152,19 +193,27 @@ class _AuthFormState extends State<AuthForm> {
                   ),
                   if (widget.isLoading) CircularProgressIndicator(),
                   if (!widget.isLoading)
-                    ElevatedButton(
-                        onPressed: _trySubmit,
-                        child: Text(
-                          _isLogin ? 'Login' : 'SignUp',
-                          style: TextStyle(
-                            fontSize: 16,
+                    Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10)
+                      ),
+                      height: 45,
+                      width: 300,
+                      child: ElevatedButton(
+                          onPressed: _trySubmit,
+                          child: Text(
+                            _isLogin ? 'Login' : 'SignUp',
+                            style: TextStyle(
+                              fontSize: 20,
+                                fontFamily: 'RobotoMedium',
+                            ),
                           ),
-                        ),
-                        style: ButtonStyle(
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        )))),
+                         /* style: ButtonStyle(
+                              shape: MaterialStateProperty.all<
+                                  RoundedRectangleBorder>(RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          )))*/),
+                    ),
                   TextButton(
                     style: TextButton.styleFrom(
                       textStyle: const TextStyle(
@@ -172,23 +221,37 @@ class _AuthFormState extends State<AuthForm> {
                       ),
                     ),
                     child: Text(_isLogin
-                        ? 'Create a new account'
-                        : 'I already have an account.'),
+                        ? 'Create a new account!'
+                        : 'I already have an account.',style: TextStyle(
+                      fontSize: 20,
+                    color: Colors.white,
+                    fontFamily: 'RobotoMedium'
+                    ),),
                     onPressed: () {
                       setState(() {
                         _isLogin = !_isLogin;
                       });
                     },
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => guestHomeScreen(userImage),
-                          ));
-                    },
-                    child: Text('Guest'),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10)
+                    ),
+                    height: 45,
+                    width: 300,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => GuestHomeScreen(userImage),
+                            ));
+                      },
+                      child: Text('Guest',style:TextStyle(
+                        fontSize: 20,
+                        fontFamily: 'RobotoMedium',
+                      ),),
+                    ),
                   ),
                 ],
               ),

@@ -20,13 +20,16 @@ class NewPost extends StatefulWidget {
 }
 
 class _NewPostState extends State<NewPost> {
-
   String doc;
   XFile _userImageFile;
   void _pickedImage(XFile image) {
     _userImageFile = image;
   }
-
+TextStyle myHintStyle= TextStyle(
+    color: Colors.black,
+    fontSize:18,
+    fontFamily: 'RobotoRegular'
+);
   bool _isLoading = false;
   var _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -34,12 +37,9 @@ class _NewPostState extends State<NewPost> {
   final _priceController = TextEditingController();
   final _descriptionController = TextEditingController();
 
-
   var _enteredTitle = '';
   var _enteredPrice = '';
   var _enteredAddress = '';
-
-
 
   /*getAddressFromCoordinates(Coordinates coordinates)async {
     var addresses=await Geocoder.local.findAddressesFromCoordinates(coordinates);
@@ -86,16 +86,15 @@ class _NewPostState extends State<NewPost> {
         .collection('users')
         .doc(user.uid)
         .get();
-    //getAddressFromCoordinates(Coordinates(_locationData.latitude,_locationData.longitude,));
     final url = await ref.getDownloadURL();
     await FirebaseFirestore.instance.collection('usersData').add({
       'title': _enteredTitle,
       'price': _enteredPrice,
-     // 'address': _enteredAddress,
       'createdAt': Timestamp.now(),
       'userId': user.uid,
-      'userNumber':userData['number'],
+      'userNumber': userData['number'],
       'username': userData['username'],
+      'email':userData['email'],
       'imageLink': url,
       'latitude': _locationData.latitude,
       'longitude': _locationData.longitude,
@@ -116,11 +115,8 @@ class _NewPostState extends State<NewPost> {
     _priceController.clear();
     _descriptionController.clear();
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => sellerScreen(doc)));
-
+        .push(MaterialPageRoute(builder: (context) => SellerScreen(doc)));
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -151,7 +147,6 @@ class _NewPostState extends State<NewPost> {
 //                    color: Colors.grey
             ),
             child: Column(
-
               children: [
                 TextField(
                   onChanged: (value) {
@@ -160,6 +155,7 @@ class _NewPostState extends State<NewPost> {
                   controller: _titleController,
                   decoration: InputDecoration(
                     hintText: "Enter title",
+                    hintStyle:myHintStyle,
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.only(left: 10),
                   ),
@@ -188,6 +184,7 @@ class _NewPostState extends State<NewPost> {
               controller: _priceController,
               decoration: InputDecoration(
                   hintText: "Enter Price",
+                  hintStyle: myHintStyle,
                   border: InputBorder.none,
                   contentPadding: EdgeInsets.only(left: 10)),
             ),
@@ -195,52 +192,28 @@ class _NewPostState extends State<NewPost> {
           SizedBox(
             height: 20,
           ),
-          /*Neumorphic(
-            style: NeumorphicStyle(
-              shape: NeumorphicShape.concave,
-              boxShape: NeumorphicBoxShape.roundRect(
-                BorderRadius.circular(12),
-              ),
-              depth: -4,
-              lightSource: LightSource.topLeft,
-//                    color: Colors.grey
-            ),
-            child: TextField(
-              onChanged: (value) {
-                _enteredAddress = value;
-              },
-              controller: _descriptionController,
-              decoration: InputDecoration(
-                hintText: "Enter Address",
-                border: InputBorder.none,
-                contentPadding: EdgeInsets.only(left: 10, top: 10, bottom: 10),
-              ),
-            ),
-          ),*/
           _isLoading
               ? Center(
-            child: CircularProgressIndicator(),
-          )
+                  child: CircularProgressIndicator(),
+                )
               : NeumorphicButton(
-            style: NeumorphicStyle(
-              shape: NeumorphicShape.flat,
-              boxShape: NeumorphicBoxShape.roundRect(
-                BorderRadius.circular(16),
-              ),
-              depth: 8,
-              lightSource: LightSource.topLeft,
-            ),
-            onPressed: () async {
-              await _postInfo();
-
-
-            },
-            child: Icon(
-              Icons.save,
-              color: Theme.of(context).primaryColor,
-              size: 30,
-            ),
-          )
+                  style: NeumorphicStyle(
+                    shape: NeumorphicShape.flat,
+                    boxShape: NeumorphicBoxShape.roundRect(
+                      BorderRadius.circular(16),
+                    ),
+                    depth: 8,
+                    lightSource: LightSource.topLeft,
+                  ),
+                  onPressed: () async {
+                    await _postInfo();
+                  },
+                  child: Icon(
+                    Icons.save,
+                    color: Theme.of(context).primaryColor,
+                    size: 30,
+                  ),
+                )
         ],
       ),
     );

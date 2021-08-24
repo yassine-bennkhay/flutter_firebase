@@ -3,16 +3,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-class guestHomeScreen extends StatefulWidget {
-  guestHomeScreen(this.userImage);
+import 'package:provider/provider.dart';
+class GuestHomeScreen extends StatefulWidget  {
+  GuestHomeScreen(this.userImage);
   final String userImage;
 
   @override
-  _guestHomeScreenState createState() => _guestHomeScreenState();
+  _GuestHomeScreenState createState() => _GuestHomeScreenState();
 }
 
-class _guestHomeScreenState extends State<guestHomeScreen> {
+class _GuestHomeScreenState extends State<GuestHomeScreen> {
   UserLocation _userLocation=UserLocation();
   double _longitude;
   double _latitude;
@@ -170,4 +170,5 @@ class _guestHomeScreenState extends State<guestHomeScreen> {
       ),
     );
   }
+
 }

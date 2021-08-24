@@ -45,7 +45,7 @@ class _UserImagePickerState extends State<UserImagePicker> {
                Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.photo),
+                    Icon(Icons.photo,size: 30,),
                     SizedBox(
                       height: 20,
                     ),

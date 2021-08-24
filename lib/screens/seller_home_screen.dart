@@ -1,26 +1,27 @@
+import 'package:chicken/screens/about_us.dart';
 import 'package:chicken/screens/auth_screen.dart';
 import 'package:chicken/user_location.dart';
 import 'package:chicken/widgets/user_post_widget.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/painting.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
 import 'new_post.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class sellerScreen extends StatefulWidget {
+class SellerScreen extends StatefulWidget {
   static const routeName = 'seller-home-page';
 
-  sellerScreen(this.documentId);
-   String documentId;
-String docItem;
+  SellerScreen(this.documentId);
+  String documentId;
+  String docItem;
   @override
-  _sellerScreenState createState() => _sellerScreenState();
+  _SellerScreenState createState() => _SellerScreenState();
 }
 
-class _sellerScreenState extends State<sellerScreen> {
-  UserLocation _userLocation=UserLocation();
+class _SellerScreenState extends State<SellerScreen> {
+  UserLocation _userLocation = UserLocation();
 
   Function imagePick;
   CollectionReference users =
@@ -29,7 +30,33 @@ class _sellerScreenState extends State<sellerScreen> {
       .collection('users')
       .where('userId', isEqualTo: FirebaseAuth.instance.currentUser.uid)
       .snapshots();
-//
+
+  Widget aboutUsListTile() {
+    return InkWell(
+      onTap: () async {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => AboutUs()));
+      },
+      child: ListTile(
+        contentPadding: EdgeInsets.only(left: 8, right: 0.0, bottom: 0, top: 0),
+        minLeadingWidth: 0.5,
+        visualDensity: VisualDensity(
+          horizontal: -4,
+        ),
+        title: new Text(
+          "About Us",
+          style: TextStyle(
+            fontSize: 20,
+          ),
+        ),
+        leading: Icon(
+          FontAwesomeIcons.infoCircle,
+          size: 25,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,7 +89,11 @@ class _sellerScreenState extends State<sellerScreen> {
                       ),
                       InkWell(
                         onTap: () {
-Navigator.push(context, MaterialPageRoute(builder: (context)=>sellerScreen(widget.documentId)));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      SellerScreen(widget.documentId)));
                         },
                         child: ListTile(
                           contentPadding: EdgeInsets.only(
@@ -87,8 +118,9 @@ Navigator.push(context, MaterialPageRoute(builder: (context)=>sellerScreen(widge
                         height: 0,
                       ),
                       InkWell(
-                        onTap: ()async {
-                          await _userLocation.goToMaps(data['latitude'], data['longitude']);
+                        onTap: () async {
+                          await _userLocation.goToMaps(
+                              data['latitude'], data['longitude']);
                         },
                         child: ListTile(
                           contentPadding: EdgeInsets.only(
@@ -103,19 +135,23 @@ Navigator.push(context, MaterialPageRoute(builder: (context)=>sellerScreen(widge
                               fontSize: 20,
                             ),
                           ),
-                          leading:
-                            Icon(FontAwesomeIcons.mapMarkerAlt,size: 25,),
-
-
+                          leading: Icon(
+                            FontAwesomeIcons.mapMarkerAlt,
+                            size: 25,
+                          ),
                         ),
                       ),
                       Divider(
                         height: 0,
                       ),
+                      aboutUsListTile(),
                       InkWell(
-                        onTap: ()async{
+                        onTap: () async {
                           await FirebaseAuth.instance.signOut();
-                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>AuthScreen()));
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AuthScreen()));
                         },
                         child: ListTile(
                           contentPadding: EdgeInsets.only(
@@ -130,10 +166,10 @@ Navigator.push(context, MaterialPageRoute(builder: (context)=>sellerScreen(widge
                               fontSize: 20,
                             ),
                           ),
-                          leading:
-                          Icon(FontAwesomeIcons.signOutAlt,size: 25,),
-
-
+                          leading: Icon(
+                            FontAwesomeIcons.signOutAlt,
+                            size: 25,
+                          ),
                         ),
                       ),
                       Divider(
@@ -148,39 +184,9 @@ Navigator.push(context, MaterialPageRoute(builder: (context)=>sellerScreen(widge
         ),
         appBar: AppBar(
           title: Text(
-            'Chicken',
+            'Home',
+            textAlign: TextAlign.center,
           ),
-          actions: [
-            DropdownButton(
-              icon: Icon(
-                Icons.more_vert,
-                color: Theme.of(context).primaryIconTheme.color,
-              ),
-              items: [
-                DropdownMenuItem(
-                  child: Container(
-                    child: Row(
-                      children: [
-                        Icon(Icons.exit_to_app,
-                            color: Theme.of(context).primaryColor),
-                        SizedBox(
-                          width: 8,
-                        ),
-                        Text('Logout'),
-                      ],
-                    ),
-                  ),
-                  value: 'logout',
-                ),
-              ],
-              onChanged: (itemIdentifier) {
-                if (itemIdentifier == 'logout') {
-                  FirebaseAuth.instance.signOut();
-
-                }
-              },
-            ),
-          ],
         ),
         body: FutureBuilder(
           future: users
@@ -196,7 +202,7 @@ Navigator.push(context, MaterialPageRoute(builder: (context)=>sellerScreen(widge
             }
             if (snapShot.data.docs.isEmpty) {
               return Center(
-                child: Text('no posts yet, try to add one!'),
+                child:Image.asset('images/No_data.png')
               );
             }
 

@@ -1,8 +1,5 @@
-import 'package:chicken/screens/edit_post.dart';
-import 'package:chicken/screens/new_post.dart';
-import 'package:chicken/widgets/user_post_widget.dart';
-import 'package:chicken/widgets/user_posts.dart';
-
+import '../screens/edit_post.dart';
+import '../screens/new_post.dart';
 import '../screens/auth_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -39,25 +36,23 @@ var docList;
       debugShowCheckedModeBanner: false,
       title: 'FlutterChat',
       theme: ThemeData(
+          inputDecorationTheme: const InputDecorationTheme(
+            labelStyle: TextStyle(color: Colors.white),
+            hintStyle: TextStyle(color: Colors.white),
+          ),
         primarySwatch: kPrimaryColor,
-        backgroundColor: Colors.pink,
-        accentColor: Colors.deepPurple,
-        accentColorBrightness: Brightness.dark,
-        buttonTheme: ButtonTheme.of(context).copyWith(
-          buttonColor: Colors.pink,
-          textTheme:ButtonTextTheme.primary,
-        )
+
       ),
       home: StreamBuilder(stream: FirebaseAuth.instance.authStateChanges(),builder: (ctx,userSnapshot){
         if(userSnapshot.hasData){
-          return sellerScreen(docsRef);
+          return SellerScreen(docsRef);
         }
         return AuthScreen();
       },),
       routes: {
         EditPost.routeName:(context)=>EditPost(documentId,docList),
         NewPost.routeName:(context)=>NewPost(),
-        sellerScreen.routeName:(context)=>sellerScreen(documentId),
+        SellerScreen.routeName:(context)=>SellerScreen(documentId),
       },
     );
   }

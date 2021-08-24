@@ -69,7 +69,7 @@ class _EditPostState extends State<EditPost> {
         return;
       }*/
       Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => sellerScreen(doc)));
+          .push(MaterialPageRoute(builder: (context) => SellerScreen(doc)));
     }
   }
 
