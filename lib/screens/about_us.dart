@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 
 class AboutUs extends StatelessWidget {
 
-final txt='adassa';
+final txt='This app is still under development, it was an Internship.  ';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFeaf3f0),
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
             'About Us'
@@ -18,7 +18,10 @@ final txt='adassa';
       SingleChildScrollView(child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
-          child: Text(txt),
+          child: Text(txt,style: TextStyle(
+            fontSize: 18,
+            fontFamily: 'RobotoRegular',
+          ),),
         ),
       ))
     );

@@ -24,11 +24,12 @@ class AuthForm extends StatefulWidget {
 }
 
 class _AuthFormState extends State<AuthForm> {
+  bool isPasswordVisible = true;
   final _formKey = GlobalKey<FormState>();
-TextStyle myTextStyle= TextStyle(
-  fontSize: 20,
-  color: Colors.white,
-  fontFamily: 'RobotoRegular',
+  TextStyle myTextStyle = TextStyle(
+    fontSize: 20,
+    color: Colors.white,
+    fontFamily: 'RobotoRegular',
   );
   var _userEmail = '';
   var _userPassword = '';
@@ -48,7 +49,7 @@ TextStyle myTextStyle= TextStyle(
     final isValid = _formKey.currentState.validate();
     FocusScope.of(context).unfocus();
 
-  /*  if (_userPickedImage == null && !_isLogin) {
+    /*  if (_userPickedImage == null && !_isLogin) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: Theme.of(context).errorColor,
@@ -87,13 +88,13 @@ TextStyle myTextStyle= TextStyle(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                 // if (!_isLogin) UserImagePicker(_pickedImage),
+                  // if (!_isLogin) UserImagePicker(_pickedImage),
                   TextFormField(
                     style: TextStyle(
-              fontSize: 20,
-                color: Colors.white,
-                fontFamily: 'RobotoRegular',
-              ),
+                      fontSize: 20,
+                      color: Colors.white,
+                      fontFamily: 'RobotoRegular',
+                    ),
                     key: ValueKey('email'),
                     validator: (value) {
                       if (value.isEmpty || !value.contains('@')) {
@@ -103,6 +104,11 @@ TextStyle myTextStyle= TextStyle(
                     },
                     keyboardType: TextInputType.emailAddress,
                     decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(12)),
+                        borderSide: BorderSide(width: 80, color: Colors.white),
+                        //borderSide: const BorderSide(),
+                      ),
                       labelText: 'Email Address',
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.white),
@@ -117,7 +123,7 @@ TextStyle myTextStyle= TextStyle(
                   ),
                   if (!_isLogin)
                     TextFormField(
-                      style:myTextStyle,
+                      style: myTextStyle,
                       key: ValueKey('username'),
                       validator: (value) {
                         if (value.isEmpty || value.length < 4) {
@@ -164,7 +170,6 @@ TextStyle myTextStyle= TextStyle(
                       },
                     ),
                   TextFormField(
-
                     style: myTextStyle,
                     key: ValueKey('password'),
                     validator: (value) {
@@ -173,20 +178,33 @@ TextStyle myTextStyle= TextStyle(
                       }
                       return null;
                     },
-                    obscureText: true,
-                    decoration: const InputDecoration(
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white),
-                      ),
-                      hintStyle: TextStyle(fontSize: 20.0, color: Colors.white),
-                      labelText: 'Password',
-                    ),
+                    decoration: InputDecoration(
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white),
+                        ),
+                        hintStyle:
+                            TextStyle(fontSize: 20.0, color: Colors.white),
+                        labelText: 'Password',
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            isPasswordVisible
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                            color: Colors.white,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              isPasswordVisible = !isPasswordVisible;
+                            });
+                          },
+                        )),
                     onSaved: (value) {
                       _userPassword = value;
                     },
+                    obscureText: isPasswordVisible,
                   ),
                   SizedBox(
                     height: 12,
@@ -195,24 +213,24 @@ TextStyle myTextStyle= TextStyle(
                   if (!widget.isLoading)
                     Container(
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10)
-                      ),
+                          borderRadius: BorderRadius.circular(10)),
                       height: 45,
                       width: 300,
                       child: ElevatedButton(
-                          onPressed: _trySubmit,
-                          child: Text(
-                            _isLogin ? 'Login' : 'SignUp',
-                            style: TextStyle(
-                              fontSize: 20,
-                                fontFamily: 'RobotoMedium',
-                            ),
+                        onPressed: _trySubmit,
+                        child: Text(
+                          _isLogin ? 'Login' : 'SignUp',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontFamily: 'RobotoMedium',
                           ),
-                         /* style: ButtonStyle(
+                        ),
+                        /* style: ButtonStyle(
                               shape: MaterialStateProperty.all<
                                   RoundedRectangleBorder>(RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16),
-                          )))*/),
+                          )))*/
+                      ),
                     ),
                   TextButton(
                     style: TextButton.styleFrom(
@@ -220,13 +238,15 @@ TextStyle myTextStyle= TextStyle(
                         color: Colors.grey,
                       ),
                     ),
-                    child: Text(_isLogin
-                        ? 'Create a new account!'
-                        : 'I already have an account.',style: TextStyle(
-                      fontSize: 20,
-                    color: Colors.white,
-                    fontFamily: 'RobotoMedium'
-                    ),),
+                    child: Text(
+                      _isLogin
+                          ? 'Create a new account!'
+                          : 'I already have an account.',
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                          fontFamily: 'RobotoMedium'),
+                    ),
                     onPressed: () {
                       setState(() {
                         _isLogin = !_isLogin;
@@ -234,9 +254,8 @@ TextStyle myTextStyle= TextStyle(
                     },
                   ),
                   Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10)
-                    ),
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(10)),
                     height: 45,
                     width: 300,
                     child: ElevatedButton(
@@ -247,10 +266,13 @@ TextStyle myTextStyle= TextStyle(
                               builder: (context) => GuestHomeScreen(userImage),
                             ));
                       },
-                      child: Text('Guest',style:TextStyle(
-                        fontSize: 20,
-                        fontFamily: 'RobotoMedium',
-                      ),),
+                      child: Text(
+                        'Guest',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontFamily: 'RobotoMedium',
+                        ),
+                      ),
                     ),
                   ),
                 ],

@@ -32,7 +32,7 @@ class _GuestHomeScreenState extends State<GuestHomeScreen> {
         .snapshots();
     return Scaffold(
       appBar: AppBar(
-        title: Text('chicken',style:TextStyle(
+        title: Text('Home',style:TextStyle(
           fontFamily: 'RobotoMedium',
         ),),
       ),
@@ -45,10 +45,7 @@ class _GuestHomeScreenState extends State<GuestHomeScreen> {
           final docsData = snapshot.data.docs;
           if (snapshot.data.docs.isEmpty)
             return Center(
-              child: Text(
-                'No Posts yet!',
-                style: TextStyle(fontSize: 20),
-              ),
+              child: Image.asset('images/No_data.png')
             );
           return ListView(
             children: snapshot.data.docs.map((usersData) {

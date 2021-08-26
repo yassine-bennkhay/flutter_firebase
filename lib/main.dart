@@ -31,7 +31,7 @@ var docList;
     },
   );
   @override
-  Widget build(BuildContext context) {
+   build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'FlutterChat',

@@ -1,7 +1,7 @@
 import 'package:chicken/screens/about_us.dart';
-import 'package:chicken/screens/auth_screen.dart';
 import 'package:chicken/user_location.dart';
-import 'package:chicken/widgets/user_post_widget.dart';
+import '../widgets/log_out_liste_tile.dart';
+import '../widgets/user_post_widget.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/painting.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -145,33 +145,7 @@ class _SellerScreenState extends State<SellerScreen> {
                         height: 0,
                       ),
                       aboutUsListTile(),
-                      InkWell(
-                        onTap: () async {
-                          await FirebaseAuth.instance.signOut();
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AuthScreen()));
-                        },
-                        child: ListTile(
-                          contentPadding: EdgeInsets.only(
-                              left: 8, right: 0.0, bottom: 0, top: 0),
-                          minLeadingWidth: 0.5,
-                          visualDensity: VisualDensity(
-                            horizontal: -4,
-                          ),
-                          title: new Text(
-                            "LogOut",
-                            style: TextStyle(
-                              fontSize: 20,
-                            ),
-                          ),
-                          leading: Icon(
-                            FontAwesomeIcons.signOutAlt,
-                            size: 25,
-                          ),
-                        ),
-                      ),
+                      LogOutListTile(),
                       Divider(
                         height: 0,
                       ),
@@ -201,9 +175,7 @@ class _SellerScreenState extends State<SellerScreen> {
               );
             }
             if (snapShot.data.docs.isEmpty) {
-              return Center(
-                child:Image.asset('images/No_data.png')
-              );
+              return Center(child: Image.asset('images/No_data.png'));
             }
 
             return ListView.builder(

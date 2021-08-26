@@ -1,7 +1,5 @@
 import 'dart:io';
-
 import 'package:chicken/screens/seller_home_screen.dart';
-import 'package:chicken/user_location.dart';
 import 'package:chicken/widgets/user_image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart';
-import 'package:geocoder/geocoder.dart';
 
 class NewPost extends StatefulWidget {
   static const routeName = 'New-Post';
@@ -25,11 +22,9 @@ class _NewPostState extends State<NewPost> {
   void _pickedImage(XFile image) {
     _userImageFile = image;
   }
-TextStyle myHintStyle= TextStyle(
-    color: Colors.black,
-    fontSize:18,
-    fontFamily: 'RobotoRegular'
-);
+
+  TextStyle myHintStyle =
+      TextStyle(color: Colors.black, fontSize: 18, fontFamily: 'RobotoRegular');
   bool _isLoading = false;
   var _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -39,15 +34,6 @@ TextStyle myHintStyle= TextStyle(
 
   var _enteredTitle = '';
   var _enteredPrice = '';
-  var _enteredAddress = '';
-
-  /*getAddressFromCoordinates(Coordinates coordinates)async {
-    var addresses=await Geocoder.local.findAddressesFromCoordinates(coordinates);
-    var address=addresses.first;
-    print('----------------------------------------');
-    print("${address.addressLine}");
-  }*/
-
   Future _postInfo() async {
     setState(() {
       _isLoading = true;
@@ -94,7 +80,7 @@ TextStyle myHintStyle= TextStyle(
       'userId': user.uid,
       'userNumber': userData['number'],
       'username': userData['username'],
-      'email':userData['email'],
+      'email': userData['email'],
       'imageLink': url,
       'latitude': _locationData.latitude,
       'longitude': _locationData.longitude,
@@ -155,10 +141,11 @@ TextStyle myHintStyle= TextStyle(
                   controller: _titleController,
                   decoration: InputDecoration(
                     hintText: "Enter title",
-                    hintStyle:myHintStyle,
+                    hintStyle: myHintStyle,
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.only(left: 10),
                   ),
+                  style: TextStyle(fontSize: 20.0),
                 ),
               ],
             ),
@@ -183,10 +170,12 @@ TextStyle myHintStyle= TextStyle(
               },
               controller: _priceController,
               decoration: InputDecoration(
-                  hintText: "Enter Price",
-                  hintStyle: myHintStyle,
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.only(left: 10)),
+                hintText: "Enter Price",
+                hintStyle: myHintStyle,
+                border: InputBorder.none,
+                contentPadding: EdgeInsets.only(left: 10),
+              ),
+              style: TextStyle( fontSize: 20.0),
             ),
           ),
           SizedBox(
