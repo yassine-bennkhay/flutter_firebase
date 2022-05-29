@@ -1,6 +1,6 @@
-# Flutter firebase admin & guest user- 
+# Flutter firebase admin & guest user app- 
 
-A new Flutter project.
+This app allows you to upload products and users can see the product location or contacts you so you can get connected to make the sale.
 
 ## Getting Started
 
